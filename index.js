@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const products = require("./routes/products");
 const admins = require("./routes/admins");
+const users = require("./routes/users");
 
 const port = process.env.PORT || 8000;
 const MongoDB = process.env.DB;
@@ -21,5 +22,6 @@ app.listen(port, () => {
 });
 
 app.use("/api/v1/products",products);
-app.use("/api/v1/admins",admins);
+app.use("/api/v1/admins",admins); 
+app.use("/api/v1/users",users); 
 
