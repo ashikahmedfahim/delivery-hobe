@@ -2,7 +2,11 @@ const Product = require("../models/products");
 const validators = require("../utilities/dataValidators");
 const ExpressError = require("../utilities/expressError");
 
-module.exports.getAll = async (req, res) => {};
+module.exports.getAll = async (req, res) => {
+  const result = await Product.find({});
+  if (!result) throw new ExpressError(500, "Internal Server Error");
+  return res.send(result);
+};
 module.exports.createOne = async (req, res) => {
   const isValidProduct = validators.isValidProductObject(req.body);
   if (isValidProduct.error) throw new ExpressError(400, isValidProduct.error.message);
