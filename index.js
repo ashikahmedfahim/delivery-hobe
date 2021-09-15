@@ -26,4 +26,6 @@ app.use("/api/v1/products",products);
 app.use("/api/v1/admins",admins); 
 app.use("/api/v1/users",users); 
 app.use("/api/v1/checkouts",users); 
+app.use("/api/v1/warehouses",users);
+app.use("/api/v1/areas",users);
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const catchAsync = require("../utilities/catchAsync");
 const checkouts = require("../controllers/checkouts");
+const catchAsync = require("../utilities/catchAsync");
 
 router.post("/", catchAsync(checkouts.SaveOrder));
 
