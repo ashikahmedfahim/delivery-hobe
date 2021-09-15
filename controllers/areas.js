@@ -8,5 +8,5 @@ module.exports.createOne = async (req, res) => {
   const area = new Area({ name: req.body.name });
   const result = await area.save();
   if (!result) throw new ExpressError(500, "Internal Server Error");
-  return res.send(result);
+  res.send(result);
 };

@@ -34,4 +34,27 @@ module.exports.isValidProductUpdateData = (value) => {
   });
   const isValid = schema.validate(value);
   return isValid;
-}
+};
+
+module.exports.isValidWarehouseObject = (value) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    address: Joi.string().required(),
+    contact: Joi.string().required(),
+    areaId: Joi.objectId().required(),
+    avaiableProducts: Joi.array()
+      .items({
+        productId: Joi.objectId(),
+        sourcingPrice: Joi.number(),
+      })
+      .has(
+        Joi.object({
+          productId: Joi.objectId().required(),
+          sourcingPrice: Joi.number().required(),
+        }).required()
+      )
+      .required(),
+  });
+  const isValid = schema.validate(value);
+  return isValid;
+};
