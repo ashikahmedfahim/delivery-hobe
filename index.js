@@ -13,6 +13,7 @@ mongoose
   .connect(MongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => console.log("Connected to MongoDB..."))
   .catch((error) => console.log(error));
@@ -24,4 +25,5 @@ app.listen(port, () => {
 app.use("/api/v1/products",products);
 app.use("/api/v1/admins",admins); 
 app.use("/api/v1/users",users); 
+app.use("/api/v1/checkouts",users); 
 
