@@ -25,6 +25,9 @@ app.listen(port, () => {
   console.log(`Server is running at ${port}`);
 });
 
+app.use(express.json({ limit: "30mb", extended: true }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
+
 app.use("/api/v1/admins", admins);
 app.use("/api/v1/areas", areas);
 app.use("/api/v1/checkouts", checkouts);
