@@ -19,3 +19,19 @@ module.exports.isValidProductObject = (value) => {
   const isValid = schema.validate(value);
   return isValid;
 };
+
+module.exports.isValidObjectId = (value) => {
+  const schema = Joi.object({
+    id: Joi.objectId().required(),
+  });
+  const isValid = schema.validate({ id: value });
+  return isValid;
+};
+
+module.exports.isValidProductUpdateData = (value) => {
+  const schema = Joi.object({
+    inventory: Joi.number().required(),
+  });
+  const isValid = schema.validate(value);
+  return isValid;
+}
