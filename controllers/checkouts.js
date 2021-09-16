@@ -11,15 +11,14 @@ module.exports.SaveOrder = async (req, res) => {
     user: req.credentials._id,
     items: [...req.body.items],
   });
+  const result = await order.save();
+  if (!result) throw new ExpressError(500, "Internal Server Error");
   await asyncForEach(order.items, async (item) => {
     let product = await Product.findById(item.productId);
     let r = await Product.findByIdAndUpdate(
       { _id: item.productId },
       { $set: { inventory: (product.inventory - item.quantity) } }
     );
-    console.log(r);
   });
-  const result = await order.save();
-  if (!result) throw new ExpressError(500, "Internal Server Error");
   res.send("Order has been placed");
 };
