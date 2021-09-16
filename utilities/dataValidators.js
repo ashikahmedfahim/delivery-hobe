@@ -58,3 +58,12 @@ module.exports.isValidWarehouseObject = (value) => {
   const isValid = schema.validate(value);
   return isValid;
 };
+
+module.exports.isValidUserObject = (value) => {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required(),
+  });
+  const isValid = schema.validate(value);
+  return isValid;
+};
