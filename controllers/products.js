@@ -1,9 +1,25 @@
 const Product = require("../models/products");
+const Warehouse = require("../models/warehouses");
+const Area = require("../models/areas");
 const validators = require("../utilities/dataValidators");
 const ExpressError = require("../utilities/expressError");
 
 module.exports.getAll = async (req, res) => {
-  const result = await Product.find({});
+  let warehouse = "",
+    area = "";
+  let result;
+  if (req.query.warehouse && req.query.area) {
+    warehouse = req.query.warehouse;
+    area = req.query.area;
+    const areaObj = await Area.findOne({ name: area });
+    if (!areaObj) throw new ExpressError(400, "Area not found");
+    result = await Warehouse.find({
+      name: warehouse,
+      areaId: areaObj._id,
+    }).populate("areaId");
+  } else {
+    result = await Warehouse.find({}).populate("areaId");
+  }
   if (!result) throw new ExpressError(500, "Internal Server Error");
   res.send(result);
 };
