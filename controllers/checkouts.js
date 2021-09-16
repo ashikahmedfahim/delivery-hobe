@@ -15,7 +15,8 @@ module.exports.SaveOrder = async (req, res) => {
   if (!result) throw new ExpressError(500, "Internal Server Error");
   await asyncForEach(order.items, async (item) => {
     let product = await Product.findById(item.productId);
-    let r = await Product.findByIdAndUpdate(
+    if(product.inventory - item.quantity <0) throw new ExpressError(400, "Not enough inventory");
+    await Product.findByIdAndUpdate(
       { _id: item.productId },
       { $set: { inventory: (product.inventory - item.quantity) } }
     );
