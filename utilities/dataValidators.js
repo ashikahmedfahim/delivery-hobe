@@ -67,3 +67,22 @@ module.exports.isValidUserObject = (value) => {
   const isValid = schema.validate(value);
   return isValid;
 };
+
+module.exports.isValidCheckoutObject = (value) => {
+  const schema = Joi.object({
+    items: Joi.array()
+      .items({
+        productId: Joi.objectId(),
+        quantity: Joi.number(),
+      })
+      .has(
+        Joi.object({
+          productId: Joi.objectId().required(),
+          quantity: Joi.number().required(),
+        }).required()
+      )
+      .required(),
+  });
+  const isValid = schema.validate(value);
+  return isValid;
+}

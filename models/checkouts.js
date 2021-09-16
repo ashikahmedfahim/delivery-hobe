@@ -4,7 +4,7 @@ const checkoutSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    required: true,
   },
   items: [
     {
@@ -20,3 +20,5 @@ const checkoutSchema = new mongoose.Schema({
     },
   ],
 });
+
+module.exports = mongoose.model("Checkout", checkoutSchema);

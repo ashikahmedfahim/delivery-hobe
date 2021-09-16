@@ -8,7 +8,6 @@ module.exports.isAuthenticated = (req, res, next) => {
     if (!token) throw new ExpressError(400, "Token not found");
     jwt.verify(token, process.env.SECRETKEY, (error, decoded) => {
       if (error) throw new ExpressError(400, "Invalid Token");
-      console.log(decoded);
       req.credentials = decoded;
     });
     next();
@@ -20,8 +19,11 @@ module.exports.isAuthenticated = (req, res, next) => {
 module.exports.isAuthorizedAsAdmin = async (req, res, next) => {
   try {
     const isAdmin = await Admin.findOne({ _id: req.credentials._id });
-    if (isAdmin.length) next();
-    throw new ExpressError(400, "Not Authorized");
+    if (isAdmin) {
+      next();
+    } else {
+      throw new ExpressError(400, "Not Authorized");
+    }
   } catch (error) {
     next(error);
   }
