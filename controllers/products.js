@@ -20,7 +20,9 @@ module.exports.updateOne = async (req, res) => {
   const isValidProductId = validators.isValidObjectId(req.params.id);
   if (isValidProductId.error)
     throw new ExpressError(400, isValidProductId.error.message);
-  const isValidProductUpdateData = validators.isValidProductUpdateData(req.body);
+  const isValidProductUpdateData = validators.isValidProductUpdateData(
+    req.body
+  );
   if (isValidProductUpdateData.error)
     throw new ExpressError(400, isValidProductUpdateData.error.message);
   const result = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -29,4 +31,15 @@ module.exports.updateOne = async (req, res) => {
   if (!result) throw new ExpressError(500, "Internal Server Error");
   res.send(result);
 };
-module.exports.getSearched = async (req, res) => {};
+module.exports.getSearched = async (req, res) => {
+  if (!req.query.q) throw new ExpressError(400, "Nothing to search");
+  const searchedValue = req.query.q;
+  const result = await Product.find({
+    $or: [
+      { name: { $regex: searchedValue, $options: "i" } },
+      { description: { $regex: searchedValue, $options: "i" } },
+    ],
+  });
+  if (!result) throw new ExpressError(500, "Internal Server Error");
+  res.send(result);
+};
